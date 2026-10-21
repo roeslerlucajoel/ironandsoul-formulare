@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Formulare">
+<meta name="theme-color" content="#0C0D0F">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<title>Formulare</title>
+<style>
+  html,body{margin:0;height:100%;background:#0C0D0F;color:#C8CDD5;font:16px/1.5 -apple-system,system-ui,sans-serif}
+  iframe{position:fixed;inset:0;width:100%;height:100%;border:0;background:#0C0D0F}
+  .msg{position:fixed;inset:0;display:grid;place-items:center;text-align:center;padding:24px}
+  [hidden]{display:none!important}
+</style>
+</head>
+<body>
+<!-- Hülle für das Iron&Soul Formularterminal.
+     Sie trägt nur das App-Symbol und zeigt das Google-Formularterminal darin.
+     Der Zugangsschlüssel steht NICHT in dieser Datei, sondern hinten im Link nach dem #:
+     https://…/#k=<SCHLUESSEL>  – der Teil nach # wird nie an einen Server geschickt. -->
+<div class="msg" id="nokey" hidden>Kein Zugang.<br>Bitte das Formular-Symbol über den vollständigen Link neu anlegen.</div>
+<iframe id="app" title="Iron&Soul Formulare" allow="web-share; clipboard-write" hidden></iframe>
+<script>
+  var EXEC = "https://script.google.com/macros/s/AKfycbwhkJveK_oi38xxAcmbf1b2wOf2y2d4VYwNOCs5SaPk5fSgZB_DnrKLNsuYIABEan29/exec";
+  var m = /(?:^|[#&])k=([A-Za-z0-9]+)/.exec(location.hash);
+  if (m) {
+    var f = document.getElementById("app");
+    f.src = EXEC + "?k=" + m[1];
+    f.hidden = false;
+  } else {
+    document.getElementById("nokey").hidden = false;
+  }
+</script>
+</body>
+</html>
