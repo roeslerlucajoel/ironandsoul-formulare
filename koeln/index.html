@@ -38,7 +38,17 @@
     var l = document.getElementById("laden");
     l.hidden = false;
     f.addEventListener("load", function () { setTimeout(function () { l.hidden = true; }, 700); });
-    f.src = EXEC + "?k=" + m[1];
+    // Anmeldung (Standort) merkt sich diese Seite, weil Safari den Speicher im Rahmen sperren kann.
+    var st = null; try { st = localStorage.getItem("isAnmeldung"); } catch (e) {}
+    f.src = EXEC + "?k=" + m[1] + (st ? "&st=" + encodeURIComponent(st) + "&angemeldet=1" : "");
+    window.addEventListener("message", function (ev) {
+      if (!/\.googleusercontent\.com$|^https:\/\/script\.google\.com$/.test(ev.origin)) return;
+      var d = ev.data || {};
+      try {
+        if (d.ironSoulAnmeldung) localStorage.setItem("isAnmeldung", String(d.ironSoulAnmeldung));
+        if (d.ironSoulAbmeldung) localStorage.removeItem("isAnmeldung");
+      } catch (e) {}
+    });
     f.hidden = false;
   } else {
     document.getElementById("nokey").hidden = false;
